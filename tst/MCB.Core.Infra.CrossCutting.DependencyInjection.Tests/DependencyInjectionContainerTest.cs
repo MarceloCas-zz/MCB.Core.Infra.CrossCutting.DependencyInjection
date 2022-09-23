@@ -648,7 +648,7 @@ public class DependencyInjectionContainerTest
         {
             var dummyService = dependencyInjectionContainer.Resolve(typeof(IDummyService));
         }
-        catch (Exception ex)
+        catch (InvalidOperationException ex)
         {
             raisedExceptionMessage = ex.Message;
         }
@@ -670,7 +670,7 @@ public class DependencyInjectionContainerTest
         {
             var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
         }
-        catch (Exception ex)
+        catch (InvalidOperationException ex)
         {
             raisedExceptionMessage = ex.Message;
         }

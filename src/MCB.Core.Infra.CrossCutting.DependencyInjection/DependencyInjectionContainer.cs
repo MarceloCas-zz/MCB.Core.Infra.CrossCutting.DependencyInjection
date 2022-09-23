@@ -34,7 +34,7 @@ public class DependencyInjectionContainer
     public void CreateNewScope()
     {
         if (_rootServiceProvider is null)
-            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
+            throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
 
         _currentServiceProvider = _rootServiceProvider.CreateScope().ServiceProvider;
     }
@@ -44,14 +44,14 @@ public class DependencyInjectionContainer
     public object? Resolve(Type type)
     {
         if (_currentServiceProvider is null)
-            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
+            throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
 
         return _currentServiceProvider.GetService(type);
     }
     public TType? Resolve<TType>()
     {
         if (_currentServiceProvider is null)
-            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
+            throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
 
         return _currentServiceProvider.GetService<TType>();
     }
@@ -86,7 +86,7 @@ public class DependencyInjectionContainer
                 serviceType: concreteType,
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                    return concreteTypeFactory(this) ?? throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
