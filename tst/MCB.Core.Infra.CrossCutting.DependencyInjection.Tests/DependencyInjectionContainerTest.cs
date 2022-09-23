@@ -180,7 +180,7 @@ public class DependencyInjectionContainerTest
     }
 
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Singleton_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Singleton_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -203,7 +203,7 @@ public class DependencyInjectionContainerTest
         Assert.Equal(singletonServiceA, singletonServiceB);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Transient_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Transient_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -227,7 +227,7 @@ public class DependencyInjectionContainerTest
         Assert.NotEqual(transientServiceA.Id, transientServiceB.Id);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Scoped_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Scoped_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -253,8 +253,89 @@ public class DependencyInjectionContainerTest
         Assert.NotEqual(scopedServiceA, scopedServiceC);
         Assert.NotEqual(scopedServiceA.Id, scopedServiceC.Id);
     }
+
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Singleton_Concrete_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Singleton_Services_With_Generic_And_Factory()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.RegisterSingleton<ISingletonService, SingletonService>(
+                    dependencyInjectionContainer => new SingletonService(dependencyInjectionContainer.Resolve<IDummyService>())
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var singletonServiceA = dependencyInjectionContainer.Resolve<ISingletonService>();
+        var singletonServiceB = dependencyInjectionContainer.Resolve<ISingletonService>();
+
+        // Assert
+        Assert.Equal(singletonServiceA, singletonServiceB);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Transient_Services_With_Generic_And_Factory()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.RegisterTransient<ITransientService, TransientService>(
+                    dependencyInjectionContainer => new TransientService(dependencyInjectionContainer.Resolve<IDummyService>())
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var transientServiceA = dependencyInjectionContainer.Resolve<ITransientService>();
+        var transientServiceB = dependencyInjectionContainer.Resolve<ITransientService>();
+
+        // Assert
+        Assert.NotEqual(transientServiceA, transientServiceB);
+        Assert.NotEqual(transientServiceA.Id, transientServiceB.Id);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Scoped_Services_With_Generic_And_Factory()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.RegisterScoped<IScopedService, ScopedService>(
+                    dependencyInjectionContainer => new ScopedService(dependencyInjectionContainer.Resolve<IDummyService>())
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var scopedServiceA = dependencyInjectionContainer.Resolve<IScopedService>();
+        var scopedServiceB = dependencyInjectionContainer.Resolve<IScopedService>();
+        dependencyInjectionContainer.CreateNewScope();
+        var scopedServiceC = dependencyInjectionContainer.Resolve<IScopedService>();
+
+        // Assert
+        Assert.Equal(scopedServiceA, scopedServiceB);
+        Assert.NotEqual(scopedServiceA, scopedServiceC);
+        Assert.NotEqual(scopedServiceA.Id, scopedServiceC.Id);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Singleton_Concrete_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -277,7 +358,7 @@ public class DependencyInjectionContainerTest
         Assert.Equal(singletonServiceA, singletonServiceB);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Transient_Concrete_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Transient_Concrete_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -301,7 +382,7 @@ public class DependencyInjectionContainerTest
         Assert.NotEqual(concreteServiceA.Id, concreteServiceB.Id);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_Scoped_Concrete_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_Scoped_Concrete_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -328,7 +409,7 @@ public class DependencyInjectionContainerTest
         Assert.NotEqual(concreteServiceA.Id, concreteServiceC.Id);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Unregister_Services_From_Generic()
+    public void DependencyInjectionContainer_Should_Unregister_Services_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
