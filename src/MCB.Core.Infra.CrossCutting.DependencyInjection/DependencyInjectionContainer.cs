@@ -8,7 +8,8 @@ public class DependencyInjectionContainer
     : IDependencyInjectionContainer
 {
     // Constants
-    private const string OBJECT_CANNOT_BE_NULL = nameof(OBJECT_CANNOT_BE_NULL);
+    public const string DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL = nameof(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+    public const string DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD = nameof(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
 
     // Fields
     private readonly IServiceCollection _services;
@@ -32,19 +33,25 @@ public class DependencyInjectionContainer
     #region [ Scopes ]
     public void CreateNewScope()
     {
-        _currentServiceProvider = _rootServiceProvider?.CreateScope().ServiceProvider;
+        if (_rootServiceProvider is null)
+            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
+
+        _currentServiceProvider = _rootServiceProvider.CreateScope().ServiceProvider;
     }
     #endregion
 
     #region [ Resolve ]
     public object? Resolve(Type type)
     {
-        return _currentServiceProvider?.GetService(type);
+        if (_currentServiceProvider is null)
+            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
+
+        return _currentServiceProvider.GetService(type);
     }
     public TType? Resolve<TType>()
     {
         if (_currentServiceProvider is null)
-            return default;
+            throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD);
 
         return _currentServiceProvider.GetService<TType>();
     }
@@ -79,7 +86,7 @@ public class DependencyInjectionContainer
                 serviceType: concreteType,
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new NullReferenceException(OBJECT_CANNOT_BE_NULL);
+                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
@@ -102,7 +109,7 @@ public class DependencyInjectionContainer
                 serviceType: abstractionType,
                 factory: serviceProvider =>
                 {
-                    return Convert.ChangeType(concreteTypeFactory(this), concreteType) ?? throw new NullReferenceException(OBJECT_CANNOT_BE_NULL);
+                    return Convert.ChangeType(concreteTypeFactory(this), concreteType) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
@@ -120,7 +127,7 @@ public class DependencyInjectionContainer
                 serviceType: typeof(TConcreteType),
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new NullReferenceException(OBJECT_CANNOT_BE_NULL);
+                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
@@ -143,7 +150,7 @@ public class DependencyInjectionContainer
                 serviceType: typeof(TAbstractionType),
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new NullReferenceException(OBJECT_CANNOT_BE_NULL);
+                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )

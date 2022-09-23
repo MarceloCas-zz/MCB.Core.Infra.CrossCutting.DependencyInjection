@@ -441,10 +441,42 @@ public class DependencyInjectionContainerTest
             configureServicesAction: dependencyInjectionContainer =>
             {
                 dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
-                dependencyInjectionContainer.RegisterSingleton(dependencyInjectionContainer =>
-                {
-                    return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
-                });
+                dependencyInjectionContainer.Register(
+                    DependencyInjectionLifecycle.Singleton,
+                    concreteType: typeof(ConcreteService),
+                    concreteTypeFactory: dependencyInjectionContainer =>
+                    {
+                        return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
+                    }
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var concreteServiceA = dependencyInjectionContainer.Resolve<ConcreteService>();
+        var concreteServiceB = dependencyInjectionContainer.Resolve<ConcreteService>();
+
+        // Assert
+        Assert.Equal(concreteServiceA, concreteServiceB);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Singleton_Concrete_Services_With_Factory_Using_Generic()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.RegisterSingleton<ConcreteService>(
+                    concreteTypeFactory: dependencyInjectionContainer =>
+                    {
+                        return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
+                    }
+                );
             }
         );
         var serviceProvider = services.BuildServiceProvider();
@@ -460,6 +492,37 @@ public class DependencyInjectionContainerTest
     }
     [Fact]
     public void DependencyInjectionContainer_Should_Resolve_Transient_Concrete_Services_With_Factory()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.Register(
+                    DependencyInjectionLifecycle.Transient,
+                    concreteType: typeof(ConcreteService),
+                    dependencyInjectionContainer =>
+                    {
+                        return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
+                    }
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var concreteServiceA = dependencyInjectionContainer.Resolve<ConcreteService>();
+        var concreteServiceB = dependencyInjectionContainer.Resolve<ConcreteService>();
+
+        // Assert
+        Assert.NotEqual(concreteServiceA, concreteServiceB);
+        Assert.NotEqual(concreteServiceA.Id, concreteServiceB.Id);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Transient_Concrete_Services_With_Factory_Using_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
@@ -494,6 +557,40 @@ public class DependencyInjectionContainerTest
             configureServicesAction: dependencyInjectionContainer =>
             {
                 dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
+                dependencyInjectionContainer.Register(
+                    DependencyInjectionLifecycle.Scoped,
+                    concreteType: typeof(ConcreteService),
+                    dependencyInjectionContainer =>
+                    {
+                        return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
+                    }
+                );
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var concreteServiceA = dependencyInjectionContainer.Resolve<ConcreteService>();
+        var concreteServiceB = dependencyInjectionContainer.Resolve<ConcreteService>();
+        dependencyInjectionContainer.CreateNewScope();
+        var concreteServiceC = dependencyInjectionContainer.Resolve<ConcreteService>();
+
+        // Assert
+        Assert.Equal(concreteServiceA, concreteServiceB);
+        Assert.NotEqual(concreteServiceA, concreteServiceC);
+        Assert.NotEqual(concreteServiceA.Id, concreteServiceC.Id);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_Scoped_Concrete_Services_With_Factory_Using_Generic()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterScoped<IDummyService, DummyService>();
                 dependencyInjectionContainer.RegisterScoped(dependencyInjectionContainer =>
                 {
                     return new ConcreteService(dependencyInjectionContainer.Resolve<IDummyService>());
@@ -514,5 +611,93 @@ public class DependencyInjectionContainerTest
         Assert.Equal(concreteServiceA, concreteServiceB);
         Assert.NotEqual(concreteServiceA, concreteServiceC);
         Assert.NotEqual(concreteServiceA.Id, concreteServiceC.Id);
+    }
+
+    [Fact]
+    public void DependencyInjectionContainer_Should_Not_CreateNewScope()
+    {
+        // Arrange
+        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var raisedExceptionMessage = string.Empty;
+        var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
+
+        // Act
+        try
+        {
+            dependencyInjectionContainer.CreateNewScope();
+        }
+        catch (Exception ex)
+        {
+            raisedExceptionMessage = ex.Message;
+        }
+
+        // Assert
+        Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
+    }
+
+    [Fact]
+    public void DependencyInjectionContainer_Should_Not_Resolve()
+    {
+        // Arrange
+        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var raisedExceptionMessage = string.Empty;
+        var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
+
+        // Act
+        try
+        {
+            var dummyService = dependencyInjectionContainer.Resolve(typeof(IDummyService));
+        }
+        catch (Exception ex)
+        {
+            raisedExceptionMessage = ex.Message;
+        }
+
+        // Assert
+        Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
+    }
+
+    [Fact]
+    public void DependencyInjectionContainer_Should_Not_Resolve_With_Generic()
+    {
+        // Arrange
+        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var raisedExceptionMessage = string.Empty;
+        var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
+
+        // Act
+        try
+        {
+            var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
+        }
+        catch (Exception ex)
+        {
+            raisedExceptionMessage = ex.Message;
+        }
+
+        // Assert
+        Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
+    }
+
+    [Fact]
+    public void DependencyInjectionContainer_Should_Not_Register_With_Invalid_Lifecycle()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        var raisedException = false;
+
+        // Act
+        try
+        {
+            dependencyInjectionContainer.Register<IDummyService>(lifecycle: 0);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            raisedException = ex.ParamName == "lifecycle";
+        }
+
+        // Assert
+        Assert.True(raisedException);
     }
 }
