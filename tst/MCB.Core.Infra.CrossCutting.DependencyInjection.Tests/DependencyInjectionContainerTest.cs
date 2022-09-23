@@ -613,7 +613,7 @@ public class DependencyInjectionContainerTest
         Assert.NotEqual(concreteServiceA.Id, concreteServiceC.Id);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Resolve_ConcreteType_With_Generic()
+    public void DependencyInjectionContainer_Should_Resolve_With_Factory_And_Without_Generic()
     {
         // Arrange
         var serviceCollection = new ServiceCollection();
@@ -621,25 +621,17 @@ public class DependencyInjectionContainerTest
         var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
         dependencyInjectionContainer.Register(
             lifecycle: DependencyInjectionLifecycle.Singleton, 
+            abstractionType: typeof(IDummyService),
             concreteType: typeof(DummyService), 
-            concreteTypeFactory: dependencyInjectionContainer => new DummyService()
+            concreteTypeFactory: dependencyInjectionContainer => new InheritedDummyService()
         );
-
-        var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
-        var raisedExceptionMessage = string.Empty;
+        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
 
         // Act
-        try
-        {
-            dependencyInjectionContainer.Resolve<DummyService>();
-        }
-        catch (InvalidOperationException ex)
-        {
-            raisedExceptionMessage = ex.Message;
-        }
+        var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
 
         // Assert
-        Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
+        Assert.True(dummyService is InheritedDummyService);
     }
 
     [Fact]

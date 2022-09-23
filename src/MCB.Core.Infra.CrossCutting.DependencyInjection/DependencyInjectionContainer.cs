@@ -109,7 +109,7 @@ public class DependencyInjectionContainer
                 serviceType: abstractionType,
                 factory: serviceProvider =>
                 {
-                    return Convert.ChangeType(concreteTypeFactory(this), concreteType) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
