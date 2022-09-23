@@ -633,6 +633,25 @@ public class DependencyInjectionContainerTest
         // Assert
         Assert.True(dummyService is InheritedDummyService);
     }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Resolve_With_Factory_And_Generic()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+
+        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        dependencyInjectionContainer.Register<IDummyService, DummyService>(
+            lifecycle: DependencyInjectionLifecycle.Singleton,
+            concreteTypeFactory: dependencyInjectionContainer => new InheritedDummyService()
+        );
+        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
+
+        // Act
+        var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
+
+        // Assert
+        Assert.True(dummyService is InheritedDummyService);
+    }
 
     [Fact]
     public void DependencyInjectionContainer_Should_Not_Resolve_ConcreteType_Without_Generic_And_Null_ConcreteFactory()
