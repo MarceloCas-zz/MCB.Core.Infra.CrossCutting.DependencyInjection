@@ -86,7 +86,12 @@ public class DependencyInjectionContainer
                 serviceType: concreteType,
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                    var concreteType = concreteTypeFactory(this);
+
+                    if (concreteType is null)
+                        throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+
+                    return concreteType;
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
