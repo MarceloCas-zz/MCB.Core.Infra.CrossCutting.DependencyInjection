@@ -114,7 +114,12 @@ public class DependencyInjectionContainer
                 serviceType: abstractionType,
                 factory: serviceProvider =>
                 {
-                    return concreteTypeFactory(this) ?? throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                    var concreteObject = concreteTypeFactory(this);
+
+                    if(concreteObject is null)
+                        throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+
+                    return concreteObject;
                 },
                 lifetime: ConvertToServiceLifetyme(lifecycle)
             )
@@ -135,7 +140,7 @@ public class DependencyInjectionContainer
                     var concreteObject = concreteTypeFactory(this);
 
                     if (concreteObject is null)
-                        throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                        throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
 
                     return concreteObject;
                 },
@@ -163,7 +168,7 @@ public class DependencyInjectionContainer
                     var concreteObject = concreteTypeFactory(this);
 
                     if (concreteObject is null)
-                        throw new NullReferenceException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
+                        throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
 
                     return concreteObject;
                 },
