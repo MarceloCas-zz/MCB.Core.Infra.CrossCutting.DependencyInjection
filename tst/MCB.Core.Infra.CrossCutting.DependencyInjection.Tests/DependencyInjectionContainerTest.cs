@@ -165,6 +165,28 @@ public class DependencyInjectionContainerTest
         services.AddMcbDependencyInjection(
             configureServicesAction: dependencyInjectionContainer =>
             {
+                dependencyInjectionContainer.RegisterSingleton<IUnregisteredService, UnregisteredService>();
+                dependencyInjectionContainer.Unregister(typeof(IUnregisteredService));
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var unregisteredService = dependencyInjectionContainer.Resolve(typeof(IUnregisteredService));
+
+        // Assert
+        Assert.Null(unregisteredService);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Unregister_When_Register_Not_Exists_Services()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
                 dependencyInjectionContainer.Unregister(typeof(IUnregisteredService));
             }
         );
@@ -410,6 +432,28 @@ public class DependencyInjectionContainerTest
     }
     [Fact]
     public void DependencyInjectionContainer_Should_Unregister_Services_With_Generic()
+    {
+        // Arrange
+        var services = new ServiceCollection();
+        services.AddMcbDependencyInjection(
+            configureServicesAction: dependencyInjectionContainer =>
+            {
+                dependencyInjectionContainer.RegisterSingleton<IUnregisteredService, UnregisteredService>();
+                dependencyInjectionContainer.Unregister<IUnregisteredService>();
+            }
+        );
+        var serviceProvider = services.BuildServiceProvider();
+
+        var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
+
+        // Act
+        var unregisteredService = dependencyInjectionContainer.Resolve<IUnregisteredService>();
+
+        // Assert
+        Assert.Null(unregisteredService);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Unregister_Services_When_Register_Not_Exists_With_Generic()
     {
         // Arrange
         var services = new ServiceCollection();
