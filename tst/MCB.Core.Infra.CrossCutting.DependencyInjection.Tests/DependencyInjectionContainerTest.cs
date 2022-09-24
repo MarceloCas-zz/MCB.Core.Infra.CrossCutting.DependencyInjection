@@ -767,6 +767,39 @@ public class DependencyInjectionContainerTest
         Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
     }
     [Fact]
+    public void DependencyInjectionContainer_Should_Not_Resolve_With_Factory_Return_Null_Value()
+    {
+        // Arrange
+        var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
+        var raisedExceptionMessage = string.Empty;
+
+        var serviceCollection = new ServiceCollection();
+        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+
+        dependencyInjectionContainer.Register(
+            lifecycle: DependencyInjectionLifecycle.Singleton,
+            abstractionType: typeof(IDummyService),
+            concreteType: typeof(InheritedDummyService),
+            concreteTypeFactory: dependencyInjectionContainer => null
+        );
+
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+        dependencyInjectionContainer.Build(serviceProvider);
+
+        // Act
+        try
+        {
+            dependencyInjectionContainer.Resolve<IDummyService>();
+        }
+        catch (InvalidOperationException ex)
+        {
+            raisedExceptionMessage = ex.Message;
+        }
+
+        // Assert
+        Assert.Equal(expectedExceptionMessage, raisedExceptionMessage);
+    }
+    [Fact]
     public void DependencyInjectionContainer_Should_Not_Resolve_ConcreteType_Without_Generic_And_Null_ConcreteFactory()
     {
         // Arrange
