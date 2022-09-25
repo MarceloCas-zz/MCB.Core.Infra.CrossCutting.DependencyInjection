@@ -71,13 +71,14 @@ public class DependencyInjectionContainer
     }
     private static DependencyInjectionLifecycle ConvertToDependencyInjectionLifecycle(ServiceLifetime lifecycle)
     {
+#pragma warning disable CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
         return lifecycle switch
         {
             ServiceLifetime.Transient => DependencyInjectionLifecycle.Transient,
             ServiceLifetime.Scoped => DependencyInjectionLifecycle.Scoped,
-            ServiceLifetime.Singleton => DependencyInjectionLifecycle.Singleton,
-            _ => throw new ArgumentOutOfRangeException(nameof(lifecycle)),
+            ServiceLifetime.Singleton => DependencyInjectionLifecycle.Singleton
         };
+#pragma warning restore CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
     }
 
     public void Register(DependencyInjectionLifecycle lifecycle, Type concreteType)
