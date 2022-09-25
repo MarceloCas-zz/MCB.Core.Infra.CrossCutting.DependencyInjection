@@ -59,7 +59,7 @@ public class DependencyInjectionContainer
     #endregion
 
     #region [ Register ]
-    private static ServiceLifetime ConvertToServiceLifetyme(DependencyInjectionLifecycle lifecycle)
+    private static ServiceLifetime ConvertToServiceLifetime(DependencyInjectionLifecycle lifecycle)
     {
         return lifecycle switch
         {
@@ -71,14 +71,13 @@ public class DependencyInjectionContainer
     }
     private static DependencyInjectionLifecycle ConvertToDependencyInjectionLifecycle(ServiceLifetime lifecycle)
     {
-#pragma warning disable CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
         return lifecycle switch
         {
             ServiceLifetime.Transient => DependencyInjectionLifecycle.Transient,
             ServiceLifetime.Scoped => DependencyInjectionLifecycle.Scoped,
-            ServiceLifetime.Singleton => DependencyInjectionLifecycle.Singleton
+            ServiceLifetime.Singleton => DependencyInjectionLifecycle.Singleton,
+            _ => throw new ArgumentOutOfRangeException(nameof(lifecycle)),
         };
-#pragma warning restore CS8524 // The switch expression does not handle some values of its input type (it is not exhaustive) involving an unnamed enum value.
     }
 
     public void Register(DependencyInjectionLifecycle lifecycle, Type concreteType)
@@ -87,7 +86,7 @@ public class DependencyInjectionContainer
             new ServiceDescriptor(
                 serviceType: concreteType,
                 implementationType: concreteType,
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -105,7 +104,7 @@ public class DependencyInjectionContainer
 
                     return concreteObject;
                 },
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -115,7 +114,7 @@ public class DependencyInjectionContainer
             new ServiceDescriptor(
                 serviceType: abstractionType,
                 implementationType: concreteType,
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -133,7 +132,7 @@ public class DependencyInjectionContainer
 
                     return concreteObject;
                 },
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -156,7 +155,7 @@ public class DependencyInjectionContainer
 
                     return concreteObject;
                 },
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -166,7 +165,7 @@ public class DependencyInjectionContainer
             new ServiceDescriptor(
                 serviceType: typeof(TAbstractionType),
                 implementationType: typeof(TConcreteType),
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }
@@ -184,7 +183,7 @@ public class DependencyInjectionContainer
 
                     return concreteObject;
                 },
-                lifetime: ConvertToServiceLifetyme(lifecycle)
+                lifetime: ConvertToServiceLifetime(lifecycle)
             )
         );
     }

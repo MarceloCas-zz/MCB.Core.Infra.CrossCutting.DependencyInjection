@@ -3,6 +3,7 @@ using MCB.Core.Infra.CrossCutting.DependencyInjection.Abstractions.Interfaces;
 using MCB.Core.Infra.CrossCutting.DependencyInjection.Tests.Services;
 using MCB.Core.Infra.CrossCutting.DependencyInjection.Tests.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using Xunit;
 
 namespace MCB.Core.Infra.CrossCutting.DependencyInjection.Tests;
@@ -472,6 +473,32 @@ public class DependencyInjectionContainerTest
 
         // Assert
         Assert.Null(unregisteredService);
+    }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Not_ConvertToServiceLifetyme()
+    {
+        // Arrange
+        var depencyInjectionContainer = new DependencyInjectionContainer(null);
+        var hasThrowException = false;
+
+        var methodInfo = typeof(DependencyInjectionContainer).GetMethod("ConvertToServiceLifetime", BindingFlags.NonPublic | BindingFlags.Static);
+        object[] parameters = { 0 };
+
+        // Act
+        try
+        {
+            methodInfo.Invoke(depencyInjectionContainer, parameters);
+        }
+        catch (TargetInvocationException ex)
+        {
+            if(ex.InnerException is ArgumentOutOfRangeException argumentOutOfRangeException)
+            {
+                hasThrowException = argumentOutOfRangeException.ParamName == "lifecycle";
+            }
+        }
+
+        // Assert
+        Assert.True(hasThrowException);
     }
 
     [Fact]
