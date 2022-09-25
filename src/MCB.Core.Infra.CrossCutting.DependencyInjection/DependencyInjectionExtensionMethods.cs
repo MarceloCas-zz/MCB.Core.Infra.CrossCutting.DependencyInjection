@@ -17,7 +17,7 @@ public static class DependencyInjectionExtensionMethods
         services.Add(
             new ServiceDescriptor(
                 serviceType: typeof(IDependencyInjectionContainer),
-                factory: serviceProvider => dependencyInjectionContainer.Build(serviceProvider),
+                factory: serviceProvider => dependencyInjectionContainer.Build(),
                 lifetime: serviceLifetime
             )
         );

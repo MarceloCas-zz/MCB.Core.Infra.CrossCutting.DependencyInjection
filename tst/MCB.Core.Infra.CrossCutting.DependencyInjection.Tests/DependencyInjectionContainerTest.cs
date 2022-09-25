@@ -23,7 +23,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -46,7 +45,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -70,7 +68,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -97,7 +94,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -120,7 +116,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -144,7 +139,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -171,7 +165,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -192,7 +185,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -215,7 +207,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -238,7 +229,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -262,7 +252,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -292,7 +281,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -317,7 +305,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -343,7 +330,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -370,7 +356,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -393,7 +378,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -417,7 +401,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -444,7 +427,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -465,7 +447,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -517,7 +498,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -543,7 +523,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -570,7 +549,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -604,7 +582,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -632,7 +609,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -662,7 +638,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -689,7 +664,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -720,7 +694,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -750,7 +723,6 @@ public class DependencyInjectionContainerTest
             }
         );
         var serviceProvider = services.BuildServiceProvider();
-
         var dependencyInjectionContainer = serviceProvider.GetService<IDependencyInjectionContainer>();
 
         // Act
@@ -777,7 +749,7 @@ public class DependencyInjectionContainerTest
             concreteType: typeof(DummyService), 
             concreteTypeFactory: dependencyInjectionContainer => new InheritedDummyService()
         );
-        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
+        dependencyInjectionContainer.Build();
 
         // Act
         var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
@@ -796,7 +768,7 @@ public class DependencyInjectionContainerTest
             lifecycle: DependencyInjectionLifecycle.Singleton,
             concreteTypeFactory: dependencyInjectionContainer => new InheritedDummyService()
         );
-        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
+        dependencyInjectionContainer.Build();
 
         // Act
         var dummyService = dependencyInjectionContainer.Resolve<IDummyService>();
@@ -814,7 +786,7 @@ public class DependencyInjectionContainerTest
         dependencyInjectionContainer.RegisterSingleton<ISingletonService, SingletonService>();
         dependencyInjectionContainer.RegisterTransient<ITransientService, TransientService>();
         dependencyInjectionContainer.RegisterScoped<IScopedService, ScopedService>();
-        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
+        dependencyInjectionContainer.Build();
 
         // Act
         var registrationCollection = dependencyInjectionContainer.GetRegistrationCollection().ToList();
@@ -833,8 +805,7 @@ public class DependencyInjectionContainerTest
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
         var raisedExceptionMessage = string.Empty;
 
-        var serviceCollection = new ServiceCollection();
-        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
 
         dependencyInjectionContainer.Register(
             lifecycle: DependencyInjectionLifecycle.Singleton,
@@ -842,8 +813,7 @@ public class DependencyInjectionContainerTest
             concreteTypeFactory: dependencyInjectionContainer => null
         );
 
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        dependencyInjectionContainer.Build(serviceProvider);
+        dependencyInjectionContainer.Build();
 
         // Act
         try
@@ -865,16 +835,14 @@ public class DependencyInjectionContainerTest
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
         var raisedExceptionMessage = string.Empty;
 
-        var serviceCollection = new ServiceCollection();
-        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
 
         dependencyInjectionContainer.Register<InheritedDummyService>(
             lifecycle: DependencyInjectionLifecycle.Singleton,
             concreteTypeFactory: dependencyInjectionContainer => null
         );
 
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        dependencyInjectionContainer.Build(serviceProvider);
+        dependencyInjectionContainer.Build();
 
         // Act
         try
@@ -896,16 +864,14 @@ public class DependencyInjectionContainerTest
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
         var raisedExceptionMessage = string.Empty;
 
-        var serviceCollection = new ServiceCollection();
-        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
 
         dependencyInjectionContainer.Register<IDummyService, InheritedDummyService>(
             lifecycle: DependencyInjectionLifecycle.Singleton,
             concreteTypeFactory: dependencyInjectionContainer => null
         );
 
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        dependencyInjectionContainer.Build(serviceProvider);
+        dependencyInjectionContainer.Build();
 
         // Act
         try
@@ -927,8 +893,7 @@ public class DependencyInjectionContainerTest
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL;
         var raisedExceptionMessage = string.Empty;
 
-        var serviceCollection = new ServiceCollection();
-        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
 
         dependencyInjectionContainer.Register(
             lifecycle: DependencyInjectionLifecycle.Singleton,
@@ -937,8 +902,7 @@ public class DependencyInjectionContainerTest
             concreteTypeFactory: dependencyInjectionContainer => null
         );
 
-        var serviceProvider = serviceCollection.BuildServiceProvider();
-        dependencyInjectionContainer.Build(serviceProvider);
+        dependencyInjectionContainer.Build();
 
         // Act
         try
@@ -1011,7 +975,7 @@ public class DependencyInjectionContainerTest
     public void DependencyInjectionContainer_Should_Not_CreateNewScope()
     {
         // Arrange
-        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
         var raisedExceptionMessage = string.Empty;
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
 
@@ -1032,7 +996,7 @@ public class DependencyInjectionContainerTest
     public void DependencyInjectionContainer_Should_Not_Resolve()
     {
         // Arrange
-        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
         var raisedExceptionMessage = string.Empty;
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
 
@@ -1053,7 +1017,7 @@ public class DependencyInjectionContainerTest
     public void DependencyInjectionContainer_Should_Not_Resolve_With_Generic()
     {
         // Arrange
-        var dependencyInjectionContainer = new DependencyInjectionContainer(services: null);
+        var dependencyInjectionContainer = new DependencyInjectionContainer();
         var raisedExceptionMessage = string.Empty;
         var expectedExceptionMessage = DependencyInjectionContainer.DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD;
 

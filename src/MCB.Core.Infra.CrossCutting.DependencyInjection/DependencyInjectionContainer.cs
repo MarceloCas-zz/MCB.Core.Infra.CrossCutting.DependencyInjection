@@ -13,20 +13,20 @@ public class DependencyInjectionContainer
     public const string DEPENDENCY_INJECTION_CONTAINER_SHOULD_BUILD = nameof(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
 
     // Fields
-    private readonly IServiceCollection _services;
+    private readonly IServiceCollection _serviceCollection;
     private IServiceProvider? _rootServiceProvider;
     private IServiceProvider? _currentServiceProvider;
 
     // Constructors
-    public DependencyInjectionContainer(IServiceCollection services)
+    public DependencyInjectionContainer(IServiceCollection? existingServiceCollection = null)
     {
-        _services = services;
+        _serviceCollection = existingServiceCollection ?? new ServiceCollection();
     }
 
     // Public Methods
-    public DependencyInjectionContainer Build(IServiceProvider serviceProvider)
+    public DependencyInjectionContainer Build()
     {
-        _rootServiceProvider = serviceProvider;
+        _rootServiceProvider = _serviceCollection.BuildServiceProvider();
         _currentServiceProvider = _rootServiceProvider;
         return this;
     }
@@ -82,7 +82,7 @@ public class DependencyInjectionContainer
 
     public void Register(DependencyInjectionLifecycle lifecycle, Type concreteType)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: concreteType,
                 implementationType: concreteType,
@@ -92,7 +92,7 @@ public class DependencyInjectionContainer
     }
     public void Register(DependencyInjectionLifecycle lifecycle, Type concreteType, Func<IDependencyInjectionContainer, object?> concreteTypeFactory)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: concreteType,
                 factory: serviceProvider =>
@@ -110,7 +110,7 @@ public class DependencyInjectionContainer
     }
     public void Register(DependencyInjectionLifecycle lifecycle, Type abstractionType, Type concreteType)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: abstractionType,
                 implementationType: concreteType,
@@ -120,7 +120,7 @@ public class DependencyInjectionContainer
     }
     public void Register(DependencyInjectionLifecycle lifecycle, Type abstractionType, Type concreteType, Func<IDependencyInjectionContainer, object?> concreteTypeFactory)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: abstractionType,
                 factory: serviceProvider =>
@@ -143,7 +143,7 @@ public class DependencyInjectionContainer
     }
     public void Register<TConcreteType>(DependencyInjectionLifecycle lifecycle, Func<IDependencyInjectionContainer, TConcreteType?> concreteTypeFactory)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: typeof(TConcreteType),
                 factory: serviceProvider =>
@@ -161,7 +161,7 @@ public class DependencyInjectionContainer
     }
     public void Register<TAbstractionType, TConcreteType>(DependencyInjectionLifecycle lifecycle)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: typeof(TAbstractionType),
                 implementationType: typeof(TConcreteType),
@@ -171,7 +171,7 @@ public class DependencyInjectionContainer
     }
     public void Register<TAbstractionType, TConcreteType>(DependencyInjectionLifecycle lifecycle, Func<IDependencyInjectionContainer, TConcreteType?> concreteTypeFactory)
     {
-        _services.Add(
+        _serviceCollection.Add(
             new ServiceDescriptor(
                 serviceType: typeof(TAbstractionType),
                 factory: serviceProvider =>
@@ -243,10 +243,10 @@ public class DependencyInjectionContainer
     #region [ Unregister ]
     public void Unregister(Type concreteType)
     {
-        var serviceDescriptor = _services.FirstOrDefault(descriptor => descriptor.ServiceType == concreteType);
+        var serviceDescriptor = _serviceCollection.FirstOrDefault(descriptor => descriptor.ServiceType == concreteType);
 
         if (serviceDescriptor != null)
-            _services.Remove(serviceDescriptor);
+            _serviceCollection.Remove(serviceDescriptor);
     }
     public void Unregister<T>()
     {
@@ -256,7 +256,7 @@ public class DependencyInjectionContainer
 
     public IEnumerable<Registration> GetRegistrationCollection()
     {
-        foreach (var service in _services)
+        foreach (var service in _serviceCollection)
             yield return new Registration(
                 abstractionType: service.ServiceType,
                 concreteType: service.ImplementationType,
