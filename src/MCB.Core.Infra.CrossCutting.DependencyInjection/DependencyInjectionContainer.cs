@@ -1,5 +1,6 @@
 ﻿using MCB.Core.Infra.CrossCutting.DependencyInjection.Abstractions.Enums;
 using MCB.Core.Infra.CrossCutting.DependencyInjection.Abstractions.Interfaces;
+using MCB.Core.Infra.CrossCutting.DependencyInjection.Abstractions.Models;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MCB.Core.Infra.CrossCutting.DependencyInjection;
@@ -68,6 +69,16 @@ public class DependencyInjectionContainer
             _ => throw new ArgumentOutOfRangeException(nameof(lifecycle)),
         };
     }
+    private static DependencyInjectionLifecycle ConvertToDependencyInjectionLifecycle(ServiceLifetime lifecycle)
+    {
+        return lifecycle switch
+        {
+            ServiceLifetime.Transient => DependencyInjectionLifecycle.Transient,
+            ServiceLifetime.Scoped => DependencyInjectionLifecycle.Scoped,
+            ServiceLifetime.Singleton => DependencyInjectionLifecycle.Singleton,
+            _ => throw new ArgumentOutOfRangeException(nameof(lifecycle)),
+        };
+    }
 
     public void Register(DependencyInjectionLifecycle lifecycle, Type concreteType)
     {
@@ -116,7 +127,7 @@ public class DependencyInjectionContainer
                 {
                     var concreteObject = concreteTypeFactory(this);
 
-                    if(concreteObject is null)
+                    if (concreteObject is null)
                         throw new InvalidOperationException(DEPENDENCY_INJECTION_CONTAINER_OBJECT_CANNOT_BE_NULL);
 
                     return concreteObject;
@@ -242,4 +253,14 @@ public class DependencyInjectionContainer
         Unregister(typeof(T));
     }
     #endregion
+
+    public IEnumerable<Registration> GetRegistrationCollection()
+    {
+        foreach (var service in _services)
+            yield return new Registration(
+                abstractionType: service.ServiceType,
+                concreteType: service.ImplementationType,
+                dependencyInjectionLifecycle: ConvertToDependencyInjectionLifecycle(service.Lifetime)
+            );
+    }
 }

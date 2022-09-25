@@ -777,6 +777,27 @@ public class DependencyInjectionContainerTest
         // Assert
         Assert.True(dummyService is InheritedDummyService);
     }
+    [Fact]
+    public void DependencyInjectionContainer_Should_Get_RegistrationCollection()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+
+        var dependencyInjectionContainer = new DependencyInjectionContainer(serviceCollection);
+        dependencyInjectionContainer.RegisterSingleton<ISingletonService, SingletonService>();
+        dependencyInjectionContainer.RegisterTransient<ITransientService, TransientService>();
+        dependencyInjectionContainer.RegisterScoped<IScopedService, ScopedService>();
+        dependencyInjectionContainer.Build(serviceCollection.BuildServiceProvider());
+
+        // Act
+        var registrationCollection = dependencyInjectionContainer.GetRegistrationCollection().ToList();
+
+        // Assert
+        Assert.True(registrationCollection.Count == 3);
+        Assert.Contains(registrationCollection, q => q.DependencyInjectionLifecycle == DependencyInjectionLifecycle.Singleton && q.AbstractionType == typeof(ISingletonService) && q.ConcreteType == typeof(SingletonService));
+        Assert.Contains(registrationCollection, q => q.DependencyInjectionLifecycle == DependencyInjectionLifecycle.Transient && q.AbstractionType == typeof(ITransientService) && q.ConcreteType == typeof(TransientService));
+        Assert.Contains(registrationCollection, q => q.DependencyInjectionLifecycle == DependencyInjectionLifecycle.Scoped && q.AbstractionType == typeof(IScopedService) && q.ConcreteType == typeof(ScopedService));
+    }
 
     [Fact]
     public void DependencyInjectionContainer_Should_Not_Resolve_ConcreteType_With_Factory_Return_Null_Value()
