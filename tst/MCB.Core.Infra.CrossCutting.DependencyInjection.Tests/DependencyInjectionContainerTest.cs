@@ -475,14 +475,14 @@ public class DependencyInjectionContainerTest
         Assert.Null(unregisteredService);
     }
     [Fact]
-    public void DependencyInjectionContainer_Should_Not_ConvertToServiceLifetyme()
+    public void DependencyInjectionContainer_Should_Not_ConvertToDependencyInjectionLifecycle()
     {
         // Arrange
         var depencyInjectionContainer = new DependencyInjectionContainer(null);
         var hasThrowException = false;
 
-        var methodInfo = typeof(DependencyInjectionContainer).GetMethod("ConvertToServiceLifetime", BindingFlags.NonPublic | BindingFlags.Static);
-        object[] parameters = { 0 };
+        var methodInfo = typeof(DependencyInjectionContainer).GetMethod("ConvertToDependencyInjectionLifecycle", BindingFlags.NonPublic | BindingFlags.Static);
+        object[] parameters = { -1 };
 
         // Act
         try
